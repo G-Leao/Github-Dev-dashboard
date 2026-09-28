@@ -1,16 +1,60 @@
-# React + Vite
+# GitHub Dev Dashboard
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Uma aplicação web desenvolvida com React para explorar perfis e repositórios do GitHub através da GitHub API.
 
-Currently, two official plugins are available:
+O projeto transforma os dados públicos de desenvolvedores em uma interface organizada, responsiva e focada em uma experiência de navegação simples e objetiva.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Tecnologias
 
-## React Compiler
+* React
+* JavaScript
+* Vite
+* CSS
+* GitHub API
+* Git e GitHub
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Funcionalidades
 
-## Expanding the ESLint configuration
+* Busca de usuários do GitHub
+* Visualização de informações do perfil
+* Listagem de repositórios
+* Exibição de dados dos projetos
+* Consumo de API REST
+* Interface responsiva
+* Componentização com React
+* Estados de carregamento e tratamento de dados
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Estrutura
+
+```text
+src/
+├── components/
+├── ...
+├── App.jsx
+└── main.jsx
+
+public/
+```
+
+## Execução
+
+```bash
+git clone https://github.com/G-Leao/Github-Dev-dashboard.git
+cd Github-Dev-dashboard
+npm install
+npm run dev
+```
+
+O projeto será executado localmente através do servidor de desenvolvimento do Vite.
+
+## Objetivo
+
+Projeto desenvolvido como parte da evolução prática em desenvolvimento Front-end, aplicando conceitos de React, consumo de APIs, componentização, organização de código e construção de interfaces responsivas.
+
+## Autor
+
+**Gustavo Leão**
+
+Engenharia de Software | Front-end Developer
+
+[GitHub](https://github.com/G-Leao) · [LinkedIn](https://www.linkedin.com/in/Gustavo-leaodev/)
