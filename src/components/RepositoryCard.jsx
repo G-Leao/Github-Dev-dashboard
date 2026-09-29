@@ -12,7 +12,7 @@ export default function RepositoryCard({ repo, isFavorite, onToggle }) {
       </div>
       <p className="muted">{repo.description || "Sem descrição."}</p>
       <div className="repo-meta muted">
-        {repo.language && <span>● {repo.language}</span>}
+        {repo.language && <span className="lang-dot">{repo.language}</span>}
         <span>⭐ {formatNumber(repo.stargazers_count)}</span>
         <span>🍴 {formatNumber(repo.forks_count)}</span>
       </div>
