@@ -46,7 +46,7 @@ export default function Analytics({ repos, events }) {
   return (
     <div className="stack">
       <section className="glass card">
-        <h2>Commits por projeto</h2>
+        <h2>Commits por projeto (90 dias)</h2>
 
         {topCommits.length === 0 ? (
           <p className="chart-empty muted">

@@ -1,8 +1,21 @@
-import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from "recharts";
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  Tooltip,
+  ResponsiveContainer,
+  CartesianGrid,
+} from "recharts";
 import ProfileCard from "../components/ProfileCard";
 import StatCard from "../components/StatCard";
 import LanguageChart from "../components/LanguageChart";
-import { formatNumber, totalStars, languageStats, reposByYear } from "../utils/formatters";
+import {
+  formatNumber,
+  totalStars,
+  languageStats,
+  reposByYear,
+} from "../utils/formatters";
 
 export default function Dashboard({ user, repos }) {
   const years = reposByYear(repos);
@@ -10,9 +23,21 @@ export default function Dashboard({ user, repos }) {
     <div className="stack">
       <ProfileCard user={user} />
       <div className="grid-3">
-        <StatCard icon="📦" value={formatNumber(user.public_repos)} label="Repositórios" />
-        <StatCard icon="👥" value={formatNumber(user.followers)} label="Seguidores" />
-        <StatCard icon="⭐" value={formatNumber(totalStars(repos))} label="Stars recebidas" />
+        <StatCard
+          icon="📦"
+          value={formatNumber(user.public_repos)}
+          label="Repositórios"
+        />
+        <StatCard
+          icon="👥"
+          value={formatNumber(user.followers)}
+          label="Seguidores"
+        />
+        <StatCard
+          icon="⭐"
+          value={formatNumber(totalStars(repos))}
+          label="Stars recebidas"
+        />
       </div>
       <div className="grid-2">
         <section className="glass card">
@@ -29,7 +54,10 @@ export default function Dashboard({ user, repos }) {
                     <stop offset="100%" stopColor="#4de4ef" />
                   </linearGradient>
                 </defs>
-                <CartesianGrid stroke="rgba(147,163,189,.12)" vertical={false} />
+                <CartesianGrid
+                  stroke="rgba(147,163,189,.12)"
+                  vertical={false}
+                />
                 <XAxis
                   dataKey="year"
                   stroke="#64748b"
@@ -84,7 +112,7 @@ export default function Dashboard({ user, repos }) {
           </div>
         </section>
         <section className="glass card">
-          <h2>Linguagens</h2>
+          <h2>Linguagens E Stacks</h2>
           <LanguageChart data={languageStats(repos)} />
         </section>
       </div>
