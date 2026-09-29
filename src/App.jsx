@@ -8,6 +8,7 @@ import Analytics from "./pages/Analytics";
 import Favorites from "./pages/Favorites";
 import useGithubUser from "./hooks/useGithubUser";
 import useFavorites from "./hooks/useFavorites";
+import AIOpinion from "./pages/AIOpinion";
 
 const ERRORS = {
   USER_NOT_FOUND: [
@@ -34,16 +35,20 @@ export default function App() {
   function content() {
     if (page === "favorites")
       return <Favorites favorites={favorites} onToggle={toggle} />;
+
     if (loading) return <LoadingSkeleton />;
+
     if (error) {
       const [title, text] = ERRORS[error] || [
         "Não foi possível carregar",
         "Confira sua conexão e tente novamente.",
       ];
+
       return (
         <div className="glass card empty">
           <h2>:( {title}</h2>
           <p className="muted">{text}</p>
+
           <button
             className="btn"
             onClick={() => document.getElementById("search")?.focus()}
@@ -53,12 +58,20 @@ export default function App() {
         </div>
       );
     }
+
     if (page === "repos")
       return (
         <Repositories repos={repos} isFavorite={isFavorite} onToggle={toggle} />
       );
+
     if (page === "analytics")
       return <Analytics repos={repos} events={events} />;
+
+    if (page === "ai")
+      return (
+        <AIOpinion key={user.login} user={user} repos={repos} events={events} />
+      );
+
     return <Dashboard user={user} repos={repos} />;
   }
 
