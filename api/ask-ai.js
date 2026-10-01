@@ -3,6 +3,11 @@ import process from "node:process";
 
 const GEMINI_MODEL = "gemini-3.5-flash";
 const MAX_REQUEST_BYTES = 1_000_000;
+const MAX_UPSTREAM_ATTEMPTS = 3;
+
+function wait(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
 
 function sendJson(res, status, body) {
   res.statusCode = status;
@@ -94,37 +99,50 @@ export function createAiHandler(apiKey) {
 
     const { system, messages } = payload;
     let upstream;
-    try {
-      upstream = await fetch(
-        `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "x-goog-api-key": apiKey,
-          },
-          signal: AbortSignal.timeout(30_000),
-          body: JSON.stringify({
-            systemInstruction: { parts: [{ text: system }] },
-            contents: messages.map((message) => ({
-              role: message.role === "assistant" ? "model" : "user",
-              parts: [{ text: message.text }],
-            })),
-            generationConfig: { maxOutputTokens: 1200 },
-          }),
-        },
-      );
-    } catch {
-      sendJson(res, 502, { error: "AI_UPSTREAM_UNAVAILABLE" });
-      return;
-    }
-
     let result;
-    try {
-      result = await upstream.json();
-    } catch {
-      sendJson(res, 502, { error: "AI_INVALID_RESPONSE" });
-      return;
+
+    for (let attempt = 0; attempt < MAX_UPSTREAM_ATTEMPTS; attempt += 1) {
+      try {
+        upstream = await fetch(
+          `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "x-goog-api-key": apiKey,
+            },
+            signal: AbortSignal.timeout(30_000),
+            body: JSON.stringify({
+              systemInstruction: { parts: [{ text: system }] },
+              contents: messages.map((message) => ({
+                role: message.role === "assistant" ? "model" : "user",
+                parts: [{ text: message.text }],
+              })),
+              generationConfig: { maxOutputTokens: 1200 },
+            }),
+          },
+        );
+      } catch {
+        if (attempt === MAX_UPSTREAM_ATTEMPTS - 1) {
+          sendJson(res, 503, { error: "AI_TEMPORARY_UNAVAILABLE" });
+          return;
+        }
+        await wait(1000 * 2 ** attempt);
+        continue;
+      }
+
+      try {
+        result = await upstream.json();
+      } catch {
+        sendJson(res, 502, { error: "AI_INVALID_RESPONSE" });
+        return;
+      }
+
+      const isTransient =
+        upstream.status === 429 || upstream.status === 503;
+
+      if (!isTransient || attempt === MAX_UPSTREAM_ATTEMPTS - 1) break;
+      await wait(1000 * 2 ** attempt);
     }
 
     if (!upstream.ok) {
