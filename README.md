@@ -35,7 +35,17 @@ Além da exploração dos dados, o projeto está evoluindo para incorporar uma c
 
 ### AI Reviewer
 
-Uma das próximas evoluções do projeto é a implementação de um **AI Reviewer**, uma camada de Inteligência Artificial capaz de analisar o contexto do perfil e dos repositórios carregados no dashboard.
+O **AI Reviewer** analisa o contexto do perfil e dos repositórios carregados no dashboard. A interface envia as perguntas para `/api/ask-ai`, uma função server-side que encaminha a solicitação ao Gemini sem expor a chave no bundle do navegador.
+
+Para ativar a integração local, copie `.env.example` para `.env`, adicione sua chave do Google AI Studio e reinicie `npm run dev`:
+
+```env
+GEMINI_API_KEY=
+```
+
+Obtenha a chave em [Google AI Studio](https://aistudio.google.com/app/apikey). Nunca a adicione a arquivos versionados nem use um prefixo `VITE_`. O `.gitignore` exclui arquivos `.env` e variantes, mantendo `.env.example` versionável.
+
+No Vercel, adicione `GEMINI_API_KEY` nas variáveis de ambiente do projeto para os ambientes desejados (Production, Preview e/ou Development) e faça um novo deploy. A função `api/ask-ai.js` atende à rota `/api/ask-ai`; no desenvolvimento, o Vite registra a mesma função como middleware local.
 
 A proposta é transformar o dashboard em uma ferramenta não apenas de visualização, mas também de **interpretação dos dados do desenvolvedor**.
 
@@ -86,7 +96,7 @@ Seu objetivo será atuar como um **avaliador especializado nos dados apresentado
 
 Quando uma pergunta estiver fora do contexto disponível, a aplicação deverá orientar a IA a informar que aquela informação não pode ser determinada a partir dos dados analisados.
 
-## AI Reviewer — Arquitetura planejada
+## AI Reviewer — Arquitetura
 
 A implementação da Inteligência Artificial será baseada em uma arquitetura de contexto.
 
@@ -118,7 +128,7 @@ GitHub Dev Dashboard
      Resposta no Dashboard
 ```
 
-A aplicação deverá montar um contexto estruturado antes de enviar uma pergunta para o modelo.
+A aplicação monta um contexto estruturado antes de enviar uma pergunta para o modelo.
 
 Isso permite que a IA receba somente as informações relevantes para a análise, juntamente com instruções que definem seu comportamento, escopo e formato de resposta.
 
@@ -191,7 +201,7 @@ A proposta é combinar:
 * [ ] Criar perguntas predefinidas
 * [ ] Permitir perguntas personalizadas
 * [ ] Criar estrutura de contexto para a IA
-* [ ] Integrar API de Inteligência Artificial
+* [x] Integrar API de Inteligência Artificial (Gemini no servidor local do Vite)
 * [ ] Definir instruções e limites do AI Reviewer
 * [ ] Implementar tratamento de perguntas fora do contexto
 * [ ] Melhorar formatação das respostas

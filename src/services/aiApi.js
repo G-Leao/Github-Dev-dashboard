@@ -1,8 +1,8 @@
-// Chama o endpoint local /api/ai (proxy do Vite), que guarda a chave da IA.
+// Chama o endpoint server-side compartilhado entre Vite local e Vercel.
 export async function askAI({ system, messages }) {
   let response;
   try {
-    response = await fetch("/api/ai", {
+    response = await fetch("/api/ask-ai", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ system, messages }),
