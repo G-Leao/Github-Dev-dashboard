@@ -20,6 +20,10 @@ const ERRORS = {
     "Não foi possível obter uma resposta do Gemini. Tente novamente em instantes.",
   AI_INVALID_RESPONSE:
     "O Gemini retornou uma resposta inválida. Tente novamente.",
+  AI_RESPONSE_INCOMPLETE:
+    "A IA não conseguiu concluir uma resposta completa em português. Tente perguntar de forma mais objetiva.",
+  AI_RESPONSE_BLOCKED:
+    "O Gemini interrompeu esta resposta. Reformule a pergunta e tente novamente.",
   AI_INVALID_REQUEST: "A solicitação de análise é inválida. Tente novamente.",
   NETWORK: "Não foi possível falar com o servidor local. Ele está rodando?",
 };

@@ -100,6 +100,8 @@ Quando uma pergunta estiver fora do contexto disponível, a aplicação deverá 
 
 A implementação da Inteligência Artificial será baseada em uma arquitetura de contexto.
 
+As respostas do AI Reviewer têm limite de 1.200 tokens por geração. A API verifica o motivo de encerramento e tenta corrigir automaticamente respostas truncadas ou detectadas em inglês, exigindo português do Brasil. Se o modelo não produzir uma resposta completa após as tentativas limitadas, a interface informa que a geração foi interrompida em vez de exibir silenciosamente um trecho incompleto.
+
 ```text
 GitHub API
      │
